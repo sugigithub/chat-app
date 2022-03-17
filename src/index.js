@@ -18,11 +18,13 @@ app.use(express.static(publicDirectoryPath));
 io.on('connection', (socket) => {
     console.log("websocket connection")
 
+    // event emmiters
+
     socket.on('join', ({ username, room } = {}, cb) => {
         const { error, user } = addUser({ id: socket.id, username, room });
-        console.log(username, room, error, user);
-        if (error) return cb(error);
-        socket.join(user.room);
+        if (error) 
+            return cb(error);
+        socket.join(user.room);  // allow to join a given room
         socket.emit('message', generatMeessage("Admin", 'Welcome'));
         socket.broadcast.to(user.room).emit('message', generatMeessage("Admin", user.username + ' has joined')); //send to all user execpt current user
         io.to(user.room).emit('roomdata', {

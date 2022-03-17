@@ -33,6 +33,9 @@ const autoscroll = () => {
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
 console.log($loctionTemp)
 const $template = document.querySelector("#message-template").innerHTML;
+
+// eent handlers
+
 socket.on('message', message => {
     console.log(message, "message on");
     const html = Mustache.render($template, {
